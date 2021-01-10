@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.web</groupId>
+        <artifactId>abbott-admin</artifactId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <!--指定为jar包，如果想指定为war包，则改为war包-->
+
+    <artifactId>abbott-system</artifactId>
+    <name>system</name>
+    <!--指定为jar包，如果想指定为war包，则改为war包-->
+    <properties>
+        <jna.version>5.6.0</jna.version>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+
+        <!--数据库相关配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- 加入common依赖 -->
+        <dependency>
+            <groupId>com.web</groupId>
+            <artifactId>abbott-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <!--让多模块化拆分之后还能打成完整的可执行jar包-->
+
+</project>

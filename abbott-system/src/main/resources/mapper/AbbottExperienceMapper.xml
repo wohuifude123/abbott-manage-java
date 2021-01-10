@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.spring.inter.mapper.Mapper.AbbottExperienceMapper">
+    <select id="findAll" resultType="AbbottExperience">
+        SELECT id, info, begin_time, end_time, company, reason, salary, position FROM abbott_experience order by id desc limit 0, 20
+    </select>
+</mapper>
