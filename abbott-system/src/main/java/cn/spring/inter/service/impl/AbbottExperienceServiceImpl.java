@@ -16,6 +16,23 @@ public class AbbottExperienceServiceImpl implements AbbottExperienceService {
 
     @Override
     public List<AbbottExperience> findAll() {
+
         return abbottExperienceMapper.findAll();
+    }
+
+    @Override
+    public Integer addOne(AbbottExperience abbottExperience) {
+
+        return abbottExperienceMapper.addOne(abbottExperience);
+    }
+
+    @Override
+    public Integer updateOne(AbbottExperience abbottExperience) {
+        return abbottExperienceMapper.updateOne(abbottExperience);
+    }
+
+    @Override
+    public List<AbbottExperience> getAll(Integer start, Integer dataLength) {
+        return abbottExperienceMapper.getAll(start, dataLength);
     }
 }

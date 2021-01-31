@@ -2,8 +2,10 @@ package cn.spring.inter.controller;
 
 import cn.spring.inter.bean.ResponseData;
 import cn.spring.inter.entity.ConfigBean;
+import cn.spring.inter.entity.ManageData;
 import cn.spring.inter.entity.User;
 import cn.spring.inter.entity.UserLogin;
+import cn.spring.inter.service.ManageDataService;
 import cn.spring.inter.service.UserLoginService;
 import cn.spring.inter.service.UserService;
 
@@ -24,12 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+//@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
     private UserLoginService userLoginService;
+    @Autowired
+    private ManageDataService manageDataService;
     /**
      * 经典的注解引入方式 就是在@Configuration注解下生存bean
      */
@@ -39,12 +43,12 @@ public class UserController {
     @Autowired
     private Environment env;
 
-    @RequestMapping("/findAll")
+    @RequestMapping("/user/findAll")
     public List<User> findAll(){
         return userService.findAll();
     }
 
-    @RequestMapping(value = "/v1/login", method={ RequestMethod.POST, RequestMethod.GET })
+    @RequestMapping(value = "/user/v1/login", method={ RequestMethod.POST, RequestMethod.GET })
     public ResponseData getLoginUser(HttpServletRequest request, @RequestBody Map<String, String> person){
         List<UserLogin> list = new ArrayList<>();
         list = userLoginService.findOne(person.get("username"));
@@ -99,6 +103,17 @@ public class UserController {
                 String userLoginReturnStr = JSON.toJSONString(userLoginReturn);
                 session.setAttribute("userInfo", userLoginReturnStr);
                 jsonResultObject.put("data", userLoginReturn);
+
+                if(list.get(0).getAuthorization() == 0) {
+                    List<ManageData> listManageData = new ArrayList<>();
+                    listManageData = manageDataService.selectAll(0, 100, "acs");
+                    JSONObject manageDataObject = new JSONObject();
+                    manageDataObject.put("urlList", listManageData);
+                    jsonResultObject.put("manageData", manageDataObject);
+                } else {
+//                    jsonResultObject.put("manageData", null);
+                    jsonResultObject.put("manageData", JSON.parseObject("{}"));
+                }
                 responseData = HandleResponseData(
                         "0001", "success", "login",
                         "用户登录成功", jsonResultObject);
@@ -113,6 +128,21 @@ public class UserController {
         return responseData;
     }
 
+    @RequestMapping(value = "/v1/user/insert", method={ RequestMethod.POST, RequestMethod.GET })
+    public ResponseData insertUser(HttpServletRequest request, @RequestBody Map<String, String> userReq){
+        ResponseData responseData = new ResponseData();
+        User user = new User();
+        JSONObject jsonResultObject = JSON.parseObject("{}");
+        user.setUsername(userReq.get("username"));
+        userService.insertSelective(user);
+        int idInsert = user.getId();
+        jsonResultObject.put("data", idInsert);
+        responseData = HandleResponseData(
+                "200", "success", "insert",
+                "新建用户成功", jsonResultObject);
+        return responseData;
+    }
+
     public ResponseData HandleResponseData (
             String code, String status, String message,
             String detail, JSONObject jsonObject) {
@@ -122,6 +152,7 @@ public class UserController {
         responseData.setMessage(message);
         responseData.setDetail(detail);
         responseData.setResult(jsonObject);
+        responseData.setData(jsonObject);
         return responseData;
     }
 }

@@ -4,4 +4,19 @@
     <select id="findAll" resultType="AbbottExperience">
         SELECT id, info, begin_time, end_time, company, reason, salary, position FROM abbott_experience order by id desc limit 0, 20
     </select>
+
+    <select id="getAll" resultType="AbbottExperience">
+        SELECT id, info, begin_time, end_time, company, reason, salary, position FROM abbott_experience order by id desc limit #{start}, #{dataLength}
+    </select>
+
+    <insert id="addOne" parameterType="AbbottExperience"
+            useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO abbott_experience (info, company, reason, salary, position)
+      VALUES (#{info}, #{company}, #{reason}, #{salary}, #{position})
+    </insert>
+
+    <update id="updateOne"  parameterType="AbbottExperience">
+      update abbott_experience SET info=#{info}, company=#{company}
+        where id=#{id}
+</update>
 </mapper>

@@ -1,10 +1,11 @@
-# linux 操作指令
+# IntelliJ IDEA 破解教程
 
 ### 1、下载IntelliJ IDEA 2018.3.6
 
 ```
 https://www.jetbrains.com/zh-cn/idea/download/other.html
 ```
+
 ### 2、安装IntelliJ IDEA 2018.1.6
 
 ### 3、使用破解补丁

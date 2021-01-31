@@ -7,8 +7,10 @@ public class User implements Serializable {
     private String username;//用户名
     private String password;//密码
     private int sex;
+    private int age;
     private String weChat;
     private String address;
+    private String telephone;
 
     public int getId() {
         return id;
@@ -56,5 +58,21 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 }

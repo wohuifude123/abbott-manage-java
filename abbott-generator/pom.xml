@@ -12,7 +12,7 @@
     <artifactId>abbott-generator</artifactId>
     <name>generator</name>
     <!--指定为jar包，如果想指定为war包，则改为war包-->
-    <packaging>jar</packaging>
+    <!--<packaging>jar</packaging>-->
 
     <properties>
         <jna.version>5.6.0</jna.version>
@@ -20,12 +20,53 @@
 
     <dependencies>
         <!-- Spring boot websocket -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-websocket</artifactId>-->
+        <!--</dependency>-->
 
     </dependencies>
 
+    <!--  在此添加如下plugin解决main函数错误  -->
+    <build>
+        <!-- 打包后的名字 -->
+        <finalName>GeneratorApplication</finalName>
+        <plugins>
+            <!-- 配置jdk版本为1.8 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <!-- 配置启动类 -->
+            <plugin>
+                <!-- The plugin rewrites your manifest -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.5.3.RELEASE</version>
+                <configuration>
+                    <!-- true:会将项目依赖的jar添加到打包的lib目录 false:是一个不包含依赖jar的包 -->
+                    <fork>true</fork>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.abbott.GeneratorApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--可以把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>
+                        </goals>
+                        <!--可以生成不含依赖包的不可执行Jar包-->
+                        <!-- configuration>
+                          <classifier>exec</classifier>
+                        </configuration> -->
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

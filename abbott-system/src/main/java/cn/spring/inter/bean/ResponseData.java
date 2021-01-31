@@ -8,6 +8,7 @@ public class ResponseData {
     private String message;
     private JSONObject result;
     private String detail;
+    private JSONObject data;
 
     public String getDetail() {
         return detail;
@@ -52,4 +53,11 @@ public class ResponseData {
         this.result = result;
     }
 
+    public JSONObject getData() {
+        return data;
+    }
+
+    public void setData(JSONObject data) {
+        this.data = data;
+    }
 }

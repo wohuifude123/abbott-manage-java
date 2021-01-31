@@ -24,8 +24,36 @@
         <!--<artifactId>abbott-generator</artifactId>-->
         <!--<version>1.0</version>-->
         <!--</dependency>-->
+        <!-- excel2003使用的包 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!-- excel2007+使用的包 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>3.17</version>
+        </dependency>
     </dependencies>
 
-
+    <build>
+        <plugins>
+            <!-- 资源文件拷贝插件，真的很重要，不然打包其他模块时会报错："xxx类找不到" -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

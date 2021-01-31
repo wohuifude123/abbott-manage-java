@@ -2,7 +2,7 @@
 
 >Author: Abbott.liu
 
->Date: 2020/12/30
+* Date: 2020/12/30
 
 ## 项目简介
 
@@ -11,10 +11,12 @@
 **账号密码：** `admin321 / 123456`
 
 ## 主要特性
+
 - 使用最新技术栈，社区资源丰富。
 - 支持数据字典，可方便地对一些状态进行管理
 
 ## 系统功能
+
 - 用户管理：提供用户的相关配置，新增用户后，默认密码为123456
 - 角色管理：对权限与菜单进行分配，可根据部门设置角色的数据权限
 
@@ -52,11 +54,6 @@
 mvn clean package
 ```
 
-### 上传JAR包到服务器
-```
-scp /Users/Eminem/Desktop/heart/fight_chess_java/target/fight_chess_202004262141.jar root@39.105.168.44:/usr/package
-```
-
 ### 后端启动JAR包
 ```
 nohup java -jar JavaWebSocket-1.0-SNAPSHOT.jar > websocket_log.file 2>&1 &
@@ -66,24 +63,4 @@ nohup java -jar JavaWebSocket-1.0-SNAPSHOT.jar > websocket_log.file 2>&1 &
 ```
 netstat -lnp|grep 9091
 kill -9 2995
-```
-
-# 接口日志
-
-### 测试启动是否成功
-
-```
-http://127.0.0.1:9091/home/other
-```
-
-### 查询城市列表
-
-```
-http://127.0.0.1:9091/city/v1/findAll
-```
-
-### 查询个人工作经历
-
-```
-http://127.0.0.1:9091/abo/exp/findAll
 ```

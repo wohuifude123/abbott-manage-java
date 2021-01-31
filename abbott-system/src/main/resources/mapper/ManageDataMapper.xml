@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.spring.inter.mapper.Mapper.ManageDataMapper">
+    <resultMap id="BaseResultMap" type="cn.spring.inter.entity.ManageData">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="operator" jdbcType="VARCHAR" property="operator" />
+        <result column="token" jdbcType="VARCHAR" property="token" />
+        <result column="classify" jdbcType="VARCHAR" property="classify" />
+    </resultMap>
+    <sql id="Base_Column_List">
+      id, url, operator, token, classify
+    </sql>
+    <!-- 查询所有管理权限才能使用链接 -->
+    <select id="selectAll"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        <choose>
+            <when test="sort=='asc'">
+                FROM manage_data order by id ASC limit #{start}, #{dataLength}
+            </when>
+            <otherwise>
+                FROM manage_data order by id DESC limit #{start}, #{dataLength}
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>
+

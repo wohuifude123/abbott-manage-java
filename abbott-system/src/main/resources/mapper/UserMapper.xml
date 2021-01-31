@@ -4,5 +4,43 @@
     <select id="findAll" resultType="User">
         SELECT id, username, sex, weChat, address FROM abbott_info
     </select>
+
+    <insert id="insertSelective" parameterType="cn.spring.inter.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO abbott_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="telephone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username, jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age, jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                #{sex, jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone, jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
 </mapper>
 

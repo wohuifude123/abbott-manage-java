@@ -16,6 +16,8 @@
     <properties>
         <jna.version>5.6.0</jna.version>
         <java.version>1.8</java.version>
+        <!-- The main class to start by executing java -jar -->
+
     </properties>
 
     <dependencies>
@@ -33,8 +35,56 @@
             <version>1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.web</groupId>
+            <artifactId>abbott-generator</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 
     <!--让多模块化拆分之后还能打成完整的可执行jar包-->
+
+    <!--将这段放开，并指定入口，则打jar包，如果注释这一段，并在子项目web中将<packaging>jar</packaging>改成war,则打成war包-->
+    <build>
+        <!-- 打包后的名字 -->
+        <finalName>AbbottApplication</finalName>
+        <plugins>
+            <!-- 配置jdk版本为1.8 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <!-- 配置启动类 -->
+            <plugin>
+                <!-- The plugin rewrites your manifest -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.5.3.RELEASE</version>
+                <configuration>
+                    <!-- true:会将项目依赖的jar添加到打包的lib目录 false:是一个不包含依赖jar的包 -->
+                    <fork>true</fork>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>cn.AbbottApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--可以把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>
+                        </goals>
+                        <!--可以生成不含依赖包的不可执行Jar包-->
+                        <!-- configuration>
+                          <classifier>exec</classifier>
+                        </configuration> -->
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

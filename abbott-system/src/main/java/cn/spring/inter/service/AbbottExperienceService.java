@@ -5,4 +5,7 @@ import java.util.List;
 
 public interface AbbottExperienceService {
     List<AbbottExperience> findAll();
+    Integer addOne(AbbottExperience abbottExperience);
+    Integer updateOne(AbbottExperience abbottExperience);
+    List<AbbottExperience> getAll(Integer start, Integer dataLength);
 }

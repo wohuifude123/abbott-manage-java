@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.spring.inter.mapper.Mapper.TechnologyArticleMapper">
+    <resultMap id="BaseResultMap" type="cn.spring.inter.entity.TechnologyArticle">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="userID" jdbcType="INTEGER" property="userID" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+        <result column="update_date" jdbcType="VARCHAR" property="updateDate" />
+        <result column="tags" jdbcType="VARCHAR" property="tags" />
+        <result column="qr_code_path" jdbcType="VARCHAR" property="qrCodePath" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+    </resultMap>
+    <sql id="Base_Column_List">
+      id, title, userID, content, create_date, update_date, tags, qr_code_path, url
+    </sql>
+    <!-- 查询所有技术文章 -->
+    <select id="selectAll"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        <choose>
+            <when test="sort=='asc'">
+                FROM technology_article order by id ASC limit #{start}, #{dataLength}
+            </when>
+            <otherwise>
+                FROM technology_article order by id DESC limit #{start}, #{dataLength}
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 查询某个文章 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM technology_article
+        WHERE id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <!-- 模糊查询某个文章 -->
+    <select id="selectByKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM technology_article ta
+        WHERE
+          1 = 1
+        <if test="searchKey != null and searchKey != ''">
+            AND ta.title like CONCAT('%',#{searchKey},'%')
+        </if>
+        <if test="searchKey != null and searchKey != ''">
+            OR ta.content like CONCAT('%',#{searchKey},'%')
+        </if>
+        <choose>
+            <when test="sort=='asc'">
+              ORDER by id ASC limit #{start}, #{dataLength}
+            </when>
+            <otherwise>
+              ORDER by id DESC limit #{start}, #{dataLength}
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!-- 更新某个文章 -->
+    <update id="updateByPrimaryKeySelective" parameterType="cn.spring.inter.entity.TechnologyArticle">
+        UPDATE technology_article
+        <set>
+            <if test="title != null">
+                title = #{title, jdbcType=VARCHAR},
+            </if>
+            <if test="userID != null">
+                userID = #{userID, jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content, jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate, jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                tags = #{tags, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <!-- 查询技术文章数量 -->
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT count(id) FROM technology_article
+    </select>
+</mapper>
+
+

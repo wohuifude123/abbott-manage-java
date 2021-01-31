@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.spring.inter.mapper.Mapper.TenantMessageMapper">
+    <select id="getAll" resultType="TenantMessage">
+        SELECT id, title, userID, rental, address, update_time, create_time FROM tenant_message order by id desc limit #{start}, #{dataLength}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT count(id) FROM tenant_message
+    </select>
+</mapper>

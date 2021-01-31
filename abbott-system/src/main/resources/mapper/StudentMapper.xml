@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.spring.inter.mapper.Mapper.StudentMapper">
+    <resultMap id="BaseResultMap" type="cn.spring.inter.entity.Student">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="age" jdbcType="INTEGER" property="age" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+    </resultMap>
+    <sql id="Base_Column_List">
+      id, name, age, sex, phone, address
+    </sql>
+    <!-- 添加一个学生 -->
+    <insert id="addOne" parameterType="Student"
+            useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO student (name, age, sex, phone, address)
+      VALUES (#{name}, #{age}, #{sex}, #{phone}, #{address})
+    </insert>
+
+    <insert id="insertSelective" parameterType="cn.spring.inter.entity.Student">
+        INSERT INTO student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age, jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                #{sex, jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone, jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 删除某个学生 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+      delete from student
+      where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <update id="updateByPrimaryKey" parameterType="cn.spring.inter.entity.Student">
+        UPDATE student
+        set name = #{name, jdbcType=VARCHAR},
+          age = #{age, jdbcType=INTEGER},
+          sex = #{sex, jdbcType=VARCHAR},
+          phone = #{phone, jdbcType=VARCHAR},
+          address = #{address, jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="cn.spring.inter.entity.Student">
+        UPDATE student
+        <set>
+            <if test="name != null">
+                name = #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="age != age">
+                age = #{age, jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 查询所有学生 -->
+    <select id="getAll"  resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        <choose>
+            <when test="sort=='asc'">
+                FROM student order by id ASC limit #{start}, #{dataLength}
+            </when>
+            <otherwise>
+                FROM student order by id DESC limit #{start}, #{dataLength}
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--根据用户名查询-->
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM student WHERE name like CONCAT(CONCAT('%', #{name}), '%')
+        <choose>
+            <when test="sort=='asc'">
+                ORDER BY id ASC limit #{start}, #{dataLength}
+            </when>
+            <otherwise>
+                ORDER BY id DESC limit #{start}, #{dataLength}
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--根据ID查询数据-->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from student
+        where id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <!-- 查询学生数量 -->
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT count(id) FROM student
+    </select>
+</mapper>
+

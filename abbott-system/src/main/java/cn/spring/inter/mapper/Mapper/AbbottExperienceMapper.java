@@ -8,4 +8,7 @@ import java.util.List;
 @Mapper//指定这是一个操作数据库的mapper
 public interface AbbottExperienceMapper {
     List<AbbottExperience> findAll();
+    Integer addOne(AbbottExperience abbottExperience);
+    Integer updateOne(AbbottExperience abbottExperience);
+    List<AbbottExperience> getAll(Integer start, Integer dataLength);
 }
